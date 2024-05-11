@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Control Panel</title>
+<style>
+    .buttons {
+        border-collapse: collapse;
+        width: 150px;
+        height: 150px;
+        margin: auto;
+    }
+    .buttons td {
+        width: 50px;
+        height: 50px;
+        border: 1px solid black;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .button {
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .button:hover {
+        background-color: #e0e0e0;
+    }
+
+
+    .matrix {
+        border-collapse: collapse;
+        
+    }
+    .matrix_cell {
+        margin: 20px;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        vertical-align: middle;
+        border: none;
+    }
+    .H { background-color: red; }
+    .P { background-color: blue; }
+
+
+</style>
+</head>
+<body>
+<table class="buttons">
+    <tr>
+        <td></td>
+        <td class="arrow button" onclick="up()">↑</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td class="arrow button" onclick="left()">←</td>
+        <td id="toggleButton" class="button" onclick="toggleText()">H</td>
+        <td class="arrow button" onclick="right()">→</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td class="arrow button" onclick="down()">↓</td>
+        <td></td>
+    </tr>
+</table>
+
+<img id="matrix"></img>
+
+<script>
+function toggleText() {
+    fetch('/toggle', {
+        method: 'POST'
+    })
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('toggleButton').innerText = data;
+    });
+}
+
+function set_data(data){
+    let imageElement = document.getElementById('image');
+    if (!imageElement) {
+        imageElement = document.createElement('img');
+        imageElement.id = 'image';
+        document.body.appendChild(imageElement);
+    }
+    imageElement.src = 'data:image/png;base64,' + data;
+}
+
+function up() {
+    fetch('/up', {
+        method: 'POST'
+    })
+    .then(response => response.text())
+    .then(data => {
+        set_data(data);
+    });
+}
+
+function down() {
+    fetch('/down', {
+        method: 'POST'
+    })
+    .then(response => response.text())
+    .then(data => {
+        set_data(data);
+    });
+}
+
+function right(){
+    fetch('/right', {
+        method: 'POST'
+    })
+    .then(response => response.text())
+    .then(data => {
+        set_data(data);
+    });
+}
+
+function left(){
+    fetch('/left', {
+        method: 'POST'
+    })
+    .then(response => response.text())
+    .then(data => {
+        set_data(data);
+    });
+}
+
+</script>
+</body>
+</html>
