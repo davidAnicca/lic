@@ -35,7 +35,6 @@ def create_lattice_diagram(sequence):
     ax.set_yticks(np.arange(min_x, max_x + 1, 1))
     ax.axis('off')
     
-    # Set aspect of the plot to be equal, ensuring the plot is always square
     ax.set_aspect('equal', adjustable='box')
 
     circle_radius = 0.2

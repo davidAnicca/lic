@@ -1,0 +1,28 @@
+@startuml usecase
+left to right direction
+skinparam packageStyle rectangle
+actor User
+
+rectangle "RULD app" {
+  usecase "RULD buttons" as UC1
+  usecase "RULD String" as UC2
+  usecase "H-P String" as UC3
+  usecase "Energy of the Conformation" as UC4
+  usecase "2D Conformation" as UC5
+}
+
+User --> UC1 : interacts
+User --> UC2 : inputs
+User --> UC3 : inputs
+
+UC1 --> UC4 : displays
+UC2 --> UC4 : displays
+UC3 --> UC4 : displays
+
+UC1 --> UC5 : displays
+UC2 --> UC5 : displays
+UC3 --> UC5 : predicts
+UC3 --> UC2 : predicts
+
+
+@enduml

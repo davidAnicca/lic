@@ -1,0 +1,66 @@
+@startuml secquence
+actor "User" as User
+participant "REST Client" as Client
+participant "Server" as Server
+participant "GA Implementation" as GA
+participant "Energy calculator" as E
+participant "Image Creation Engine" as ImageEngine
+
+User -> Client: Inputs HP string
+activate Client
+
+Client -> Server: HTTP Request HP string
+activate Server
+
+Server -> GA: Initiate GA Process
+activate GA
+Server -> GA: Gives HP string
+GA -> GA: Compute Optimal Solution
+GA --> Server: Return GA Results
+deactivate GA
+
+Server -> E: Initiate Energy calculation
+activate E 
+Server -> E: Gives RULD string
+E -> E: Compute energy
+E --> Server: Return Energy value
+deactivate E 
+
+Server -> ImageEngine: Generate Image with GA Data
+activate ImageEngine
+ImageEngine -> ImageEngine: Render Image
+ImageEngine --> Server: Return Image
+deactivate ImageEngine
+
+Server -> Client: HTTP Response with Image and Energy
+deactivate Server
+
+Client --> User: Displays Image
+Client --> User: Displays Energy
+
+User -> Client: Inputs RULD string
+
+Client -> Server: HTTP Request RULD string
+activate Server
+
+Server -> E: Initiate Energy calculation
+activate E 
+Server -> E: Gives RULD string
+E -> E: Compute energy
+E --> Server: Return Energy value
+deactivate E 
+
+Server -> ImageEngine: Generate Image with GA Data
+activate ImageEngine
+ImageEngine -> ImageEngine: Render Image
+ImageEngine --> Server: Return Image
+deactivate ImageEngine
+
+Server -> Client: HTTP Response with Image and Energy
+deactivate Server
+
+Client --> User: Displays Image
+Client --> User: Displays Energy
+
+
+@enduml

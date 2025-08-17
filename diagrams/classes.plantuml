@@ -1,0 +1,68 @@
+@startuml
+class "REST Client" {
+    +sendRequest(data: String): void
+    +receiveResponse(): [Image, int]
+}
+
+class "Server" {
+    -gaModel: GA
+    -imageEngine: ImageCreationEngine
+    +HPString :str
+    +handleRequest(request: HTTPRequest): HTTPResponse
+}
+
+class "GA" {
+    -populationSize: int
+    -crossoverRate: float
+    -mutationRate: float
+    -generations: int
+
+    -population: Chromosome[]
+    -HPString :str
+    +runAlgorithm(): Chromosome
+
+    -crossover(a: Chromosome, b: Chromosome) : Chromosome
+    -select()
+
+}
+
+class "ImageCreationEngine" {
+    +createImage(ruld: string, hp: string): Image
+}
+
+class "Image" {
+    -imageData: byte[]
+}
+
+class "Chromosome" {
+    +ruld: string
+    +xs: int[]
+    +ys: int[]
+    +valid: bool
+
+    +generate(len: int) : bool
+    +mutate(position: int)
+    +diagonal()
+    +copy(ruld: str, xs: int[], ys: int[])
+}
+
+class "Energy"{
+    -adjacent(a: tuple, b:tuple) : bool
+    +fitness(chr: Chromosome, raw: str) : int
+}
+
+class "Utils"{
+    +getCoords(ruld: str): [int[] int[]]
+
+}
+
+"REST Client" -r- "Server" : Communicate >
+"Server" -r- "REST Client" : Communicate >
+"Server" *-- "GA"
+"Server" *-- "ImageCreationEngine" 
+"GA" ..> "Chromosome" : Produces >
+"GA" -- "Energy" : Uses >
+"Server" -- "Energy" : Uses >
+"Server" -l- "Utils" : Uses >
+"ImageCreationEngine" ..> "Image" : Produces >
+@enduml
