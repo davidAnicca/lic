@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Proteos</title>
+    <link rel="stylesheet" href="/static/styles/styles.css">
+</head>
+
+<body>
+    <div class="image-container" id="imgContainer">
+        <div class="loading-overlay">Processing ...</div>
+
+        <!-- Afișează imaginea corectă în funcție de context -->
+        {% if result %}
+        <img src="{{ result }}" id="resultImg">
+        {% else %}
+        <img src="./static/resources/white.png" id="resultImg">
+        {% endif %}
+    </div>
+
+    <div class="form-container">
+        <form method="post" action="" onsubmit="startLoading()">
+            <table>
+                {% for field in form %}
+                <tr>
+                    <td>{{ field.name }}</td>
+                    <td>{{ field }}</td>
+                    <td>{{ field.label }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <p><input type="submit" value="Compute"></p>
+        </form>
+    </div>
+
+    <script>
+        function startLoading() {
+            const container = document.getElementById('imgContainer');
+            const img = document.getElementById('resultImg');
+
+            // Schimbă sursa imaginii pe negru și activează animația
+            img.src = "./static/resources/black.png";
+            container.classList.add('loading');
+        }
+    </script>
+</body>
+
+</html>

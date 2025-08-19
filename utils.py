@@ -66,18 +66,22 @@ def adjacent(a: tuple, b: tuple) -> bool:
 
 def is_valid(ch, raw: str) -> bool:
     n = len(raw)
-    if len(ch.ruld) != n-1 or len(ch.xs) != n or len(ch.ys) != n:
+    if len(ch.ruld) != n or len(ch.xs) != n+1 or len(ch.ys) != n+1:
         return False
-    x=y=0
-    if ch.xs[0]!=0 or ch.ys[0]!=0: return False
-    seen={(0,0)}
-    for i,step in enumerate(ch.ruld):
-        dx,dy = moves.get(step,(None,None))
-        if dx is None: return False
-        x+=dx; y+=dy
-        if (x,y) in seen: return False
-        if ch.xs[i+1]!=x or ch.ys[i+1]!=y: return False
-        seen.add((x,y))
+    
+    x, y = ch.xs[0], ch.ys[0]
+    seen = {(x, y)}
+    for i, step in enumerate(ch.ruld):
+        m = moves.get(step)
+        if m is None:
+            return False
+        dx, dy = m
+        x += dx; y += dy
+        if (x, y) in seen:
+            return False
+        if ch.xs[i+1] != x or ch.ys[i+1] != y:
+            return False
+        seen.add((x, y))
     return True
 
 def fitness(ch, raw: str) -> int:

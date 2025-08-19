@@ -1,7 +1,7 @@
 #!/python3/
-import io
 import numpy as np
 import matplotlib.pyplot as plt
+import os, time, glob
 
 def create_lattice_diagram(sequence):
     grid = np.full((100, 100), '', dtype=str)
@@ -73,10 +73,14 @@ def create_lattice_diagram(sequence):
                     y1_adj = y0 + (y1 - y0) * (1 - circle_radius / line_length)
                     ax.plot([y0_adj, y1_adj], [x0_adj, x1_adj], 'k--')
 
+    if not os.path.isdir('static'):
+        os.mkdir('static')
+    else:
+        for filename in glob.glob(os.path.join('static', '*.png')):
+            os.remove(filename)
+
     plt.gca().invert_yaxis()
-    buf = io.BytesIO()
-    plt.savefig(buf, format='png') 
-    plt.close(fig) 
-    buf.seek(0) 
-    return buf
+    plotfile = os.path.join('static', str(time.time()) + '.png')
+    plt.savefig(plotfile)
+    return plotfile
 

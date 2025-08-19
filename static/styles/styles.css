@@ -1,0 +1,111 @@
+    .buttons {
+        border-collapse: collapse;
+        width: 150px;
+        height: 150px;
+        margin: auto;
+    }
+
+    .buttons td {
+        width: 50px;
+        height: 50px;
+        border: 1px solid black;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .button {
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+        background-color: #e0e0e0;
+    }
+
+
+    .matrix {
+        border-collapse: collapse;
+
+    }
+
+    .matrix_cell {
+        margin: 20px;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        vertical-align: middle;
+        border: none;
+    }
+
+    .H {
+        background-color: red;
+    }
+
+    .P {
+        background-color: blue;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .image-container {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f0f0f0;
+        position: relative;
+    }
+
+    .image-container img {
+        max-width: 90%;
+        max-height: 90%;
+        transition: filter 0.3s ease;
+    }
+
+    .form-container {
+        width: 50%;
+        padding: 40px;
+    }
+
+    .loading-overlay {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-weight: bold;
+        background: rgba(255, 255, 255, 0.8);
+        padding: 5px 10px;
+        border-radius: 5px;
+        display: none;
+    }
+
+    .image-container.loading .loading-overlay {
+        display: block;
+    }
+
+    /* animația pentru imaginea în loading */
+    .image-container.loading img {
+        animation: black-pulse 2s infinite;
+    }
+
+    @keyframes black-pulse {
+        0% {
+            filter: opacity(0%);
+        }
+
+        25% {
+            filter: opacity(50%);
+        }
+
+        50% {
+            filter: opacity(70%);
+        }
+
+        100% {
+            filter: opacity(30%);
+        }
+    }
