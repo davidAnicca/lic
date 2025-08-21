@@ -73,24 +73,15 @@ def create_lattice_diagram(sequence):
     if coordinates:
         start_x, start_y = coordinates[0]
         highlight = plt.Circle(
-            (start_y, start_x),          # atenție: (col, row)
-            circle_radius + 0.1,         # puțin mai mare decât bulina
+            (start_y, start_x),          
+            circle_radius + 0.1,         
             edgecolor="black",
             facecolor="none",
             linewidth=2
         )
         ax.add_artist(highlight)
-
-    if not os.path.isdir('static'):
-        os.mkdir('static')
-    else:
-        for filename in glob.glob(os.path.join('static', '*.png')):
-            os.remove(filename)
-
     plt.gca().invert_yaxis()
-    plotfile = os.path.join('static', str(time.time()) + '.png')
-    plt.savefig(plotfile)
-    return plotfile
+    return fig
 
 def create_visual(raw_string, directions):
     visual = []

@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 
-<body>
+<body onload="startLoading()">
     <div class="image-container" id="imgContainer">
         <div class="loading-overlay">Processing ...</div>
-        
+
         {% if result %}
         <img src="{{ result }}" id="resultImg">
+        {% elif error %}
+        <img src="./static/img/error.jpg" id="resultImg">
         {% else %}
         <img src="./static/img/white.png" id="resultImg">
         {% endif %}
@@ -32,17 +34,49 @@
             <p><input type="submit" value="Compute"></p>
         </form>
 
-        <div class="result-metadata">>
-            <!--AICI vreau-->
+        {% if meta %}
+        <div class="result-metadata" id="metaContainer" {% if not meta %}style="display:none" {% endif %}>
+            <h3>Results</h3>
+            <table class="meta-table">
+                <tbody>
+                    {% for k, v in meta.items() %}
+                    <tr>
+                        <th style="text-align:left; padding-right: .75rem;">{{ k }}</th>
+                        <td>{{ v }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <hr>
+            <h3>Save results:</h3>
+            <form method="post" action="/download-zip">
+                <label for="zipname">Data file name:</label>
+                <input type="text" id="zipname" name="zipname" value="{{ default_zipname }}.zip">
+                <button type="submit">Download</button>
+            </form>
         </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="error-window" id="errorContainer" {% if not error %}style="display:none" {% endif %}>
+            <table>
+                <th style="text-align:left; padding-right: .75rem;">Invalid inputs:</th>
+                {% for err_str in error %}
+                <tr>
+                    <td>{{ err_str }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
     </div>
+
 
     <script>
         function startLoading() {
             const container = document.getElementById('imgContainer');
             const img = document.getElementById('resultImg');
-
-            // Schimbă sursa imaginii pe negru și activează animația
             img.src = "./static/img/black.png";
             container.classList.add('loading');
         }

@@ -1,0 +1,12 @@
+{
+    "GA_BOUNDS": {
+        "G_MIN": 1,
+        "G_MAX": 10000,
+        "P_MIN": 2,
+        "P_MAX": 50000,
+        "E_MIN": 1,
+        "MU_MIN": 1e-6,
+        "MU_MAX": 0.999,
+        "K_MIN": 2
+    }
+}

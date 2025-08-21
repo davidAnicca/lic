@@ -8,6 +8,12 @@ class InputForm(Form):
     P = IntegerField(
         label='Population size', default=1000,
         validators=[validators.InputRequired()])
+    E = IntegerField(
+        label='Elitism', default=50,
+        validators=[validators.InputRequired()])
+    K = IntegerField(
+        label='Tournament K', default=10,
+        validators=[validators.InputRequired()])
     M = FloatField(
         label='Mutation rate', default=0.2,
         validators=[validators.InputRequired()])
