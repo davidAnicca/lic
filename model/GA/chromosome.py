@@ -1,5 +1,5 @@
 import random
-from utils import moves, directions, rotate_ruld_string, corners
+from .utils import moves, directions, corners
 
 class Chromosome:
     def __init__(self):

@@ -1,0 +1,92 @@
+@startuml
+' skinparam packageStyle rectangle
+' skinparam classAttributeIconSize 0
+' left to right direction
+
+package "Controller (Flask)" {
+  class AppController <<controller>> {
+    + app: Flask
+    --
+    + index(): Response
+    + validate(params) : bool
+    + inflate_matrix(params): PNG path
+  }
+
+  class Validator {
+    + validate(params): bool
+  }
+}
+
+package "Model (GA Domain)" {
+  struct GeneticSAW <<entity>> {
+    + run(R:str, P:int, G:int, M:float, TK:int, E:Optional<int>, RS:Optional[int]) : (Chromosome, int)
+    --
+    - _combine(mother:Chromosome, father:Chromosome, cross_point:int) : Optional<Chromosome>
+    - _tournament_select(population:List<Chromosome>, fits:List<int>, TK:int=3) : Chromosome
+    - _mutate(ch:Chromosome, mutation_rate:float) : void
+    - _make_child(mom:Chromosome, dad:Chromosome, gene_len:int, raw:str, max_tries:int=10) : Chromosome
+  }
+
+  entity Chromosome <<entity>> {
+    + cp(ruld:str, xs:List<int], ys:List[int]) : void
+    + change(poz:int) : void
+    + diagonal() : void
+    + generate(string_len:int) : bool
+    --
+    - ruld:str
+    - xs:List[int]
+    - ys:List[int]
+  }
+
+  struct Crossover <<module>> {
+    + combine(mother:Chromosome, father:Chromosome, cross_point:int) : Optional<Chromosome>
+  }
+
+  struct Matrix <<module>> {
+    + create_lattice_diagram(sequence:List[str]) : str
+  }
+
+  struct Utils <<utility>> {
+    + directions : Set[str]
+    + moves : Dict[str, Tuple[int,int]]
+    + corners : Set[Tuple[int,int]]
+    .. utilities ..
+    + adjacent(a:Tuple[int,int], b:Tuple[int,int]) : bool
+    + is_valid(ch:Chromosome, raw:str) : bool
+    + fitness(ch:Chromosome, raw:str) : int
+    + create_visual_string(raw:str, ruld:str) : List[str]
+  }
+}
+
+package "View" {
+  class Templates <<boundary>> {
+    + index.html
+  }
+  class Forms <<boundary>> {
+    + InputForm
+        ... param fields
+  }
+  class Static <<artifact>> {
+    + css/styles.css
+    + img/*
+    + *.png (result image)
+  }
+}
+
+' --- Relații ---
+AppController --> Forms : uses
+AppController -u-> Validator : uses
+AppController --> Templates : render_template()
+
+AppController ---> GeneticSAW : run()
+AppController ---> Matrix : create_lattice_diagram()
+AppController ..> Static : url_for()
+
+GeneticSAW --> Chromosome : creates
+GeneticSAW ..> Utils : fitness(), is_valid(), create_visual()
+GeneticSAW ..> Crossover : combine()
+
+Crossover ..> Chromosome
+Utils ..> Chromosome : uses data
+
+@enduml

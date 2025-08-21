@@ -1,0 +1,51 @@
+@startuml GaSequence
+actor User
+
+boundary "Browser Page" as Form
+control "Flask Route" as Ctrl
+entity "GA Engine" as GA
+entity "Lattice Renderer" as Renderer
+entity "Fitness/Utils" as Fit
+collections "Population" as Pop
+
+activate Form
+User -> Form : Enter parameters & submit
+Form -> Ctrl : POST request with data
+
+Form -> Form : Waiting animation
+
+Ctrl -> GA : run(params...)
+
+
+loop for each generation (1..G)
+  loop until |new population| = P
+    GA -> GA : parent selection
+    GA -> GA : crossover + mutate
+
+    create entity Ch as "Chromosome"
+    GA -> Ch : initialize
+    GA -> Fit : fitness(Ch, raw)
+    Fit --> GA : scor
+
+    alt invalid chromosome
+      GA -> Ch : discard
+      destroy Ch
+    else valid chromosome
+      GA -> Pop : add(Chromosome)
+    end
+  end
+end
+
+
+GA --> Ctrl : return best result
+
+Ctrl -> Renderer : create_lattice_diagram(best.ruld)
+Renderer --> Ctrl : return PNG
+
+deactivate Form
+Ctrl -> Form : render_template(index.html,\nform, result=PNG, meta=fitness,RULD)
+
+activate Form
+
+Form --> User : Show images & metadata
+@enduml

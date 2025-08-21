@@ -4,18 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Proteos</title>
-    <link rel="stylesheet" href="/static/styles/styles.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 
 <body>
     <div class="image-container" id="imgContainer">
         <div class="loading-overlay">Processing ...</div>
-
-        <!-- Afișează imaginea corectă în funcție de context -->
+        
         {% if result %}
         <img src="{{ result }}" id="resultImg">
         {% else %}
-        <img src="./static/resources/white.png" id="resultImg">
+        <img src="./static/img/white.png" id="resultImg">
         {% endif %}
     </div>
 
@@ -32,6 +31,10 @@
             </table>
             <p><input type="submit" value="Compute"></p>
         </form>
+
+        <div class="result-metadata">>
+            <!--AICI vreau-->
+        </div>
     </div>
 
     <script>
@@ -40,7 +43,7 @@
             const img = document.getElementById('resultImg');
 
             // Schimbă sursa imaginii pe negru și activează animația
-            img.src = "./static/resources/black.png";
+            img.src = "./static/img/black.png";
             container.classList.add('loading');
         }
     </script>

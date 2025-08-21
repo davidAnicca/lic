@@ -1,0 +1,30 @@
+@startuml UseCaseDiagram
+left to right direction
+skinparam packageStyle rectangle
+
+actor User as U
+file "FS Storage" as DB
+
+rectangle "Proteus APP" as SYS {
+  usecase "Enter hiperparameters" as UC1
+  usecase "Start GA" as UC2
+  usecase "Generate protein image & metadata" as UC3
+  usecase "Show results & metadata" as UC4
+  usecase "Save results" as UC5
+}
+
+'U2C
+U --> UC1
+U --> UC2
+
+'Flux aplicație
+UC2 --> UC3
+UC3 --> UC4
+U --> UC5
+UC5 --> DB
+
+'Relații de compunere
+UC2 .> UC3 : <<include>>
+UC2 .> UC1 : <<requires>>
+UC3 .> UC5 : <<include>>
+@enduml

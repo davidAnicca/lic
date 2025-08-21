@@ -1,0 +1,33 @@
+@startuml SaveSequence
+actor User
+
+boundary "Browser Page" as Form
+control "Flask Route" as Ctrl
+entity "GA Engine" as GA
+entity "Persistence Module" as Repo
+database "Filesystem" as FS
+
+activate Form
+User -> Form : Enter parameters & submit
+Form -> Ctrl : POST request with data
+
+Ctrl -> GA : run(params...)
+GA --> Ctrl : best result + metadata
+
+Ctrl -> Form : render_template(index.html,\nresult=PNG, meta=fitness,RULD)
+Ctrl -> Form : enable save form
+Form --> User : Show result + metadata
+
+== Save flow ==
+User -> Form : Click "Save result"
+Form -> Ctrl : POST /save with filename
+Ctrl -> Repo : save(best, fitness, ruld,\nimage, filename)
+Repo -> FS : write file(s)
+FS --> Repo : OK
+Repo --> Ctrl : success
+
+Ctrl -> Form : return confirmation
+Form --> User : Show "Saved successfully"
+
+deactivate Form
+@enduml

@@ -6,7 +6,6 @@ import os, time, glob
 def create_lattice_diagram(sequence):
     grid = np.full((100, 100), '', dtype=str)
     
-    
     x, y = 30, 30
     
     directions = {'R': (0, 1), 'L': (0, -1), 'U': (-1, 0), 'D': (1, 0)}
@@ -20,8 +19,6 @@ def create_lattice_diagram(sequence):
         grid[x, y] = element
         coordinates.append((x, y))
 
-    print(coordinates)
-    
     all_xs, all_ys = zip(*coordinates)
     
     min_x, max_x = min(all_xs) - 0.5, max(all_xs) + 0.5
@@ -72,6 +69,17 @@ def create_lattice_diagram(sequence):
                     x1_adj = x0 + (x1 - x0) * (1 - circle_radius / line_length)
                     y1_adj = y0 + (y1 - y0) * (1 - circle_radius / line_length)
                     ax.plot([y0_adj, y1_adj], [x0_adj, x1_adj], 'k--')
+    
+    if coordinates:
+        start_x, start_y = coordinates[0]
+        highlight = plt.Circle(
+            (start_y, start_x),          # atenție: (col, row)
+            circle_radius + 0.1,         # puțin mai mare decât bulina
+            edgecolor="black",
+            facecolor="none",
+            linewidth=2
+        )
+        ax.add_artist(highlight)
 
     if not os.path.isdir('static'):
         os.mkdir('static')
@@ -84,3 +92,8 @@ def create_lattice_diagram(sequence):
     plt.savefig(plotfile)
     return plotfile
 
+def create_visual(raw_string, directions):
+    visual = []
+    for type, dir in zip(raw_string, directions):
+        visual.append(dir+type)
+    return visual

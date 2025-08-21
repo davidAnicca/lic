@@ -1,0 +1,34 @@
+@startuml Components
+left to right direction
+
+package "Controller" {
+  [Routes\n(app.py)\nGET '/', POST '/'] as Routes
+}
+
+package "View" {
+  [Templates\n(view/templates/*.html)] as Templates
+  [Forms\n(view/forms/form_model.py)\nWTForms] as Forms
+  [Static Assets\n(static/css, static/img, static/*.png)] as Static
+}
+
+package "Model (GA Domain)" {
+  [GA Engine (Interface)\n(model/GA/GA.py)\nGeneticSAW.run()] as GAEngine
+  [Chromosome\n(model/GA/chromosome.py)] as Chromosome
+  [Crossover Ops\n(model/GA/crossover.py)] as Crossover
+  [Utils\n(model/GA/utils.py)] as GAUtils
+  [Lattice Renderer\n(model/GA/matrix.py)] as Matri
+  [Repository\n(File system persistence)] as Repo
+}
+
+Routes --> Forms : parse & validate input
+Routes --> GAEngine : run(params...)
+GAEngine --> Chromosome
+GAEngine --> Crossover
+GAEngine --> GAUtils
+GAEngine --> Matri : generates PNG
+GAEngine --> Repo : persist(meta, image)
+
+Routes --> Templates : renders
+Templates ..> Static : includes
+
+@enduml

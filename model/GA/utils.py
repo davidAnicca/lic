@@ -19,28 +19,6 @@ corners = [
     'LDL'
 ]
 
-
-def rotate_clockwise_single_step(direction):
-    """ Helper function to rotate a single direction clockwise. """
-    order = ['R', 'U', 'L', 'D'] 
-    return order[(order.index(direction) + 1) % 4]
-
-def rotate_ruld_string(initial, new, ruld_string):
-    """ Rotate the RULD string based on the number of clockwise rotations needed. """
-    directions = ['R', 'U', 'L', 'D']
-    initial_index = directions.index(initial)
-    new_index = directions.index(new)
-
-    if new_index >= initial_index:
-        num_rotations = new_index - initial_index
-    else:
-        num_rotations = 4 - (initial_index - new_index)
-
-    for _ in range(num_rotations):
-        ruld_string = ''.join(rotate_clockwise_single_step(ch) for ch in ruld_string)
-    
-    return ruld_string
-
 def directions_to_steps(dirs: list):
     x, y = 0, 0
     xs = []
@@ -52,12 +30,6 @@ def directions_to_steps(dirs: list):
         ys.append(y)
     
     return xs, ys
-
-def create_visual(raw_string, directions):
-    visual = []
-    for type, dir in zip(raw_string, directions):
-        visual.append(dir+type)
-    return visual
 
 def adjacent(a: tuple, b: tuple) -> bool:
     x1, y1 = a
