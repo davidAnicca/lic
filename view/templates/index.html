@@ -4,12 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Proteos</title>
+    <script>
+        (function () {
+            try {
+                if (localStorage.getItem('theme') === 'dark') {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { }
+        })();
+    </script>
+
     <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/styles-dark.css">
 </head>
 
-<body onload="startLoading()">
-    <div class="image-container" id="imgContainer">
-        <div class="loading-overlay">Processing ...</div>
+<body>
+    <!-- <body onload="startLoading()"> -->
+    <div onload="initTheme()" class="image-container" id="imgContainer">
+        <div class="header-bar">
+            <div class="left-side">
+                <div class="app-title">Proteus | Πρωτέας</div>
+                <div class="loading-overlay">Processing ...</div>
+            </div>
+            <button id="themeToggle" type="button" aria-pressed="false" onclick="toggleTheme()">🌙 Dark</button>
+        </div>
 
         {% if result %}
         <img src="{{ result }}" id="resultImg">
@@ -41,8 +59,25 @@
                 <tbody>
                     {% for k, v in meta.items() %}
                     <tr>
-                        <th style="text-align:left; padding-right: .75rem;">{{ k }}</th>
-                        <td>{{ v }}</td>
+                        <th style="text-align:left; padding-right:.75rem;">{{ k }}</th>
+                        <td>
+                            {% if k == "RULD string" %}
+                            <div class="ruld-wrap">
+                                <input type="text" id="ruldBox" class="ruld-input" value="{{ v }}" readonly
+                                    title="Scrollable">
+                                <button type="button" class="btn-copy" onclick="copyRULD(this)">Copy</button>
+                            </div>
+
+                            {% elif k == "Sequence" %}
+                            <div class="ruld-wrap">
+                                <input type="text" id="seqBox" class="ruld-input" value="{{ v }}" readonly
+                                    title="Scrollable">
+                                <button type="button" class="btn-copy" onclick="copySeq(this)">Copy</button>
+                            </div>
+                            {% else %}
+                            {{ v }}
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -74,11 +109,68 @@
 
 
     <script>
+        function initThemeButton() {
+            const btn = document.getElementById('themeToggle');
+            const isDark = document.documentElement.classList.contains('dark');
+            btn.textContent = isDark ? '☀️ Light' : '🌙 Dark';
+            btn.setAttribute('aria-pressed', String(isDark));
+        }
+
+        function toggleTheme() {
+            const root = document.documentElement;
+            const btn = document.getElementById('themeToggle');
+            const isDark = root.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            btn.textContent = isDark ? '☀️ Light' : '🌙 Dark';
+            btn.setAttribute('aria-pressed', String(isDark));
+        }
+
+        document.addEventListener('DOMContentLoaded', initThemeButton);
+
         function startLoading() {
             const container = document.getElementById('imgContainer');
             const img = document.getElementById('resultImg');
             img.src = "./static/img/black.png";
+            const errDiv = document.getElementById('errorContainer');
+            if (errDiv) {
+                errDiv.style.display = "none";
+            }
             container.classList.add('loading');
+        }
+
+        function copyRULD(btn) {
+            const input = document.getElementById('ruldBox');
+            input.select();
+            input.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(input.value).then(() => {
+                const prev = btn.textContent;
+                btn.textContent = "Copied!";
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = prev, 1200;
+                    btn.classList.remove('copied')
+                }, 1200);
+            }).catch(() => {
+                alert("Copy failed");
+            });
+        }
+
+
+        function copySeq(btn) {
+            const input = document.getElementById('seqBox');
+            input.select();
+            input.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(input.value).then(() => {
+                const prev = btn.textContent;
+                btn.textContent = "Copied!";
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = prev, 1200;
+                    btn.classList.remove('copied')
+                }, 1200);
+            }).catch(() => {
+                alert("Copy failed seq");
+            });
         }
     </script>
 </body>

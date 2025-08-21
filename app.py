@@ -41,6 +41,7 @@ def run(G, P, M, A, K, E):
     elapsed_str = f"{mins} mins {secs} secs"
 
     metadata = {
+        "RULD string": best.ruld,
         "Generations": G,
         "Population Size": P,
         "Mutation rate": M,

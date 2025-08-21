@@ -1,0 +1,89 @@
+/* styles-dark.css — DOAR override-uri, toate sub .dark */
+.dark body {
+  color: #eee;
+  background: #1c1c1c;
+}
+
+.dark .image-container {
+  background: #2a2a2a;
+  border-right: 1px solid #444;
+}
+
+.dark .image-container img {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.dark .form-container {
+  background: #1c1c1c;
+}
+
+.dark h3 {
+  border-bottom: 1px solid #444;
+  color: #fafafa;
+}
+
+.dark table th,
+.dark table td {
+  border-bottom: 1px solid #333;
+}
+
+.dark input,
+.dark input[type="text"],
+.dark input[type="submit"],
+.dark button {
+  border: 1px solid #555;
+  background: #2a2a2a;
+  color: #eee;
+}
+
+.dark input[type="submit"]:hover,
+.dark button:hover {
+  background: #3a3a3a;
+}
+
+.dark .loading-overlay {
+  background: rgba(50, 50, 50, 0.85);
+  color: #fafafa;
+}
+
+.dark .error-window {
+  border: 1px solid #a66;
+  background: #442222;
+  color: #f88;
+}
+
+.dark .ruld-input {
+  border: 1px solid #555;
+  background: #2a2a2a;
+  color: #eee;
+}
+
+.dark .btn-copy {
+  border: 1px solid #555;
+  background: #2a2a2a;
+  color: #eee;
+}
+
+.dark .btn-copy:hover {
+  background: #3a3a3a;
+}
+
+.dark .btn-copy.copied {
+  background: #2d4d2d;
+  border-color: #3f7f3f;
+  color: #bdf0bd;
+}
+
+.dark .app-title {
+  color: #fafafa;
+}
+
+.dark #themeToggle {
+  border: 1px solid #555;
+  background: #2a2a2a;
+  color: #eee;
+}
+
+.dark #themeToggle:hover {
+  background: #3a3a3a;
+}
