@@ -33,6 +33,7 @@ def run(G, P, M, A, K, E):
         rng_seed=seed,
         tournament_k=K,
         elitism=E,
+        verbose=True
     )
 
     stop_time = time.time()

@@ -49,7 +49,7 @@
                 </tr>
                 {% endfor %}
             </table>
-            <p><input type="submit" value="Compute"></p>
+            <p><input type="submit" id="compute-btn" value="Compute"></p>
         </form>
 
         {% if meta %}
@@ -128,6 +128,8 @@
         document.addEventListener('DOMContentLoaded', initThemeButton);
 
         function startLoading() {
+            document.getElementById('compute-btn').style.display = 'none';
+            document.getElementById('metaContainer').style.display = 'none';
             const container = document.getElementById('imgContainer');
             const img = document.getElementById('resultImg');
             img.src = "./static/img/black.png";
