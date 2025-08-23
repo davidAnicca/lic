@@ -40,6 +40,7 @@ class GeneticSAW:
             new_population = [population[i] for i in elite_idxs]
 
             while len(new_population) < population_size:
+                print("not len!")
                 mom = GeneticSAW._tournament_select(population, fits, k=tournament_k)
                 dad = GeneticSAW._tournament_select(population, fits, k=tournament_k)
 
@@ -62,7 +63,6 @@ class GeneticSAW:
         best_idx = min(range(len(population)), key=lambda i: final_fits[i])
         return population[best_idx], final_fits[best_idx]
 
-    # --------- metode „private” ---------
     @staticmethod
     def _combine(mother: 'Chromosome', father: 'Chromosome', cross_point: int) -> Optional['Chromosome']:
         if len(mother.ruld) != len(father.ruld):

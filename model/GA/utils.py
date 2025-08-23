@@ -19,6 +19,16 @@ corners = [
     'LDL'
 ]
 
+def rotate_char_clockwise(ch: str, k: int) -> str:
+    """Rotează o singură literă R/D/L/U cu k pași clockwise (k în {0,1,2,3})."""
+    i = directions.index(ch)
+    return directions[(i + k) % 4]
+def rotate_suffix_clockwise(suffix: str, k: int) -> str:
+    """Aplică rotația clockwise cu k pași pe fiecare caracter din sufix."""
+    if k % 4 == 0 or not suffix:
+        return suffix
+    return ''.join(rotate_char_clockwise(ch, k) for ch in suffix)
+
 def directions_to_steps(dirs: list):
     x, y = 0, 0
     xs = []
@@ -58,7 +68,7 @@ def is_valid(ch, raw: str) -> bool:
 
 def fitness(ch, raw: str) -> int:
     if not is_valid(ch, raw):
-        return 10**9  # scor foarte prost, dar nu arunci excepții
+        return 10**9
 
     n = len(raw)
     fit = 0
@@ -72,4 +82,4 @@ def fitness(ch, raw: str) -> int:
             nx, ny = ch.xs[j], ch.ys[j]
             if adjacent((cx, cy), (nx, ny)):
                 fit += 1
-    return -fit // 2  # fiecare contact numărat de două ori
+    return -fit // 2
