@@ -8,5 +8,6 @@
         "MU_MIN": 1e-6,
         "MU_MAX": 0.999,
         "K_MIN": 2
-    }
+    },
+    "RGN_SEED": 42 
 }

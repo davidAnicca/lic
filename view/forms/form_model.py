@@ -1,5 +1,4 @@
 from wtforms import Form, FloatField, IntegerField, StringField, validators
-from math import pi
 
 class InputForm(Form):
     G = IntegerField(

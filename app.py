@@ -8,7 +8,6 @@ import zipfile
 from flask import Flask, current_app, render_template, request, send_file
 from controller import validator
 from model.GA.GA import GeneticSAW as GeneticAlgorithm
-from model.GA.matri import create_lattice_diagram, create_visual
 from model.persistence import persistence
 from view.forms.form_model import InputForm
 
@@ -16,12 +15,11 @@ app = Flask(__name__, template_folder="view/templates/", static_folder="static")
 app.config.from_file("config/ga_thresholds.json", load=json.load)
 
 
-def run(G, P, M, A, K, E):
+def run(G, P, M, A, K, E, seed=42):
     generations = G
     population_size = P
     input_array = A
     mutation_rate = M
-    seed = 42
 
     start_time = time.time()
 
@@ -56,7 +54,7 @@ def run(G, P, M, A, K, E):
 
     return (
         metadata,
-        persistence.save_data(input_array, G, P, M, A, K, E, score, best, elapsed_str),
+        persistence.save_data(input_array, G, P, M, A, K, E, score, best, elapsed_str, rgn_seed=seed),
     )
 
 
@@ -72,6 +70,7 @@ def inflate_err(errs, form):
 @app.route("/", methods=["GET", "POST"])
 def index():
     bounds = current_app.config["GA_BOUNDS"]
+    seed = current_app.config["RGN_SEED"]
     form = InputForm(request.form)
     image_path = None
     meta = None
@@ -83,7 +82,7 @@ def index():
         if len(errs):
             return inflate_err(errs, form)
         meta, image_path = run(
-            form.G.data, form.P.data, form.M.data, form.A.data, form.K.data, form.E.data
+            form.G.data, form.P.data, form.M.data, form.A.data, form.K.data, form.E.data, seed
         )
         ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     return render_template(
@@ -93,15 +92,11 @@ def index():
 
 @app.route("/download-zip", methods=["POST"])
 def download_zip():
-    # numele cerut de user
     name = request.form.get("zipname", "").strip()
     if not name:
-        # fallback la timestamp
         name = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     if not name.endswith(".zip"):
         name += ".zip"
-
-    # construim arhiva în memorie
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
         for path in glob.glob(os.path.join(persistence.FILES_DIR, "*")):

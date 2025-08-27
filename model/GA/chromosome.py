@@ -24,15 +24,15 @@ class Chromosome:
 
         if self.change_with_rotation(poz) and utils.is_valid(self, self.ruld):
             return
-        
+
         self.ruld = original_ruld
         self.xs = original_xs
         self.ys = original_ys
-        
+
         n = len(self.ruld)
         if poz < 0 or poz >= n:
             return
-        
+
         current_direction = original_ruld[poz]
 
         checked = []
@@ -165,16 +165,16 @@ class Chromosome:
             return False
 
         original_ruld = self.ruld[:]
-        original_xs   = self.xs[:]
-        original_ys   = self.ys[:]
+        original_xs = self.xs[:]
+        original_ys = self.ys[:]
 
         cur = original_ruld[poz]
 
         candidates = [d for d in directions if d != cur]
-        random.shuffle(candidates)  
+        random.shuffle(candidates)
 
         prefix = original_ruld[:poz]
-        suffix = original_ruld[poz+1:]
+        suffix = original_ruld[poz + 1 :]
 
         for cand in candidates:
             k = (directions.index(cand) - directions.index(cur)) % 4

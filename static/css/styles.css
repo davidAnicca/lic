@@ -76,9 +76,9 @@ button:hover {
   position: absolute;
   top: 10px;
   left: 30px;
-  right: 30px;           /* lasă puțin spațiu din dreapta */
+  right: 30px;          
   display: flex;
-  justify-content: space-between; /* titlu+overlay la stânga, toggle la dreapta */
+  justify-content: space-between; 
   align-items: center;
   z-index: 1000;
 }
@@ -86,7 +86,7 @@ button:hover {
 .left-side {
   display: flex;
   align-items: center;
-  gap: 12px;   /* spațiu între titlu și overlay */
+  gap: 12px;  
 }
 
 .app-title {
@@ -100,7 +100,7 @@ button:hover {
   background: rgba(255, 255, 255, 0.85);
   padding: 5px 10px;
   border-radius: 5px;
-  display: none;       /* vizibil doar când e loading */
+  display: none;      
   font-size: 0.9rem;
   color: #333;
 }

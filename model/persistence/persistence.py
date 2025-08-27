@@ -3,7 +3,6 @@ import glob
 import json
 import os
 import time
-import matplotlib
 from matplotlib.figure import Figure
 
 from model.GA.chromosome import Chromosome
@@ -27,7 +26,7 @@ def save_image(fig: Figure, image_name) -> str:
     fig.savefig(plotfile)
     return plotfile
 
-def save_data(input_array, G, P, M, A, K, E, score, best: Chromosome, run_time):
+def save_data(input_array, G, P, M, A, K, E, score, best: Chromosome, run_time, rgn_seed):
     cleanup_and_prepare()
     file_name = get_time_stamp()
 
@@ -55,7 +54,7 @@ def save_data(input_array, G, P, M, A, K, E, score, best: Chromosome, run_time):
             "generations": G,
             "population_size": P,
             "mutation_rate": M,
-            "rng_seed": 42,
+            "rng_seed": rgn_seed,
             "tournament_k": K,
             "elitism": E,
             "input_sequence": input_array,
