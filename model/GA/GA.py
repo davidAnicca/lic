@@ -40,7 +40,6 @@ class GeneticSAW:
             new_population = [population[i] for i in elite_idxs]
 
             while len(new_population) < population_size:
-                print("not len!")
                 mom = GeneticSAW._tournament_select(population, fits, k=tournament_k)
                 dad = GeneticSAW._tournament_select(population, fits, k=tournament_k)
 

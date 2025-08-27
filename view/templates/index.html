@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Proteos</title>
+    <title>Proteus</title>
     <script>
         (function () {
             try {
@@ -39,7 +39,7 @@
     </div>
 
     <div class="form-container">
-        <form method="post" action="" onsubmit="startLoading()">
+        <form method="post" action="">
             <table>
                 {% for field in form %}
                 <tr>
@@ -49,7 +49,7 @@
                 </tr>
                 {% endfor %}
             </table>
-            <p><input type="submit" id="compute-btn" value="Compute"></p>
+            <p><input type="submit" id="compute-btn" value="Compute" onclick="startLoading()"></p>
         </form>
 
         {% if meta %}
@@ -129,13 +129,16 @@
 
         function startLoading() {
             document.getElementById('compute-btn').style.display = 'none';
-            document.getElementById('metaContainer').style.display = 'none';
+            meta_cont = document.getElementById('metaContainer');
             const container = document.getElementById('imgContainer');
             const img = document.getElementById('resultImg');
             img.src = "./static/img/black.png";
             const errDiv = document.getElementById('errorContainer');
             if (errDiv) {
                 errDiv.style.display = "none";
+            }
+            if (meta_cont) {
+                meta_cont.style.display = 'none';
             }
             container.classList.add('loading');
         }
